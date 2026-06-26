@@ -4614,9 +4614,108 @@
           opacity 0.4s ease,
           filter 0.4s ease;
       }
+
+      /* YÜKLEME EKRANI & MÜZİK TOAST CSS */
+      .global-loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color, #1a1a2e);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.6s ease,
+          visibility 0.6s;
+      }
+      .global-loading-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .loader-pixel-spinner {
+        width: 64px;
+        height: 64px;
+        border: 8px solid rgba(255, 107, 107, 0.3);
+        border-top-color: var(--primary-color, #ff6b6b);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .loader-text {
+        font-family: "Pixelify Sans", sans-serif;
+        font-size: 24px;
+        color: var(--text-color, #fff);
+        text-align: center;
+      }
+      .loader-subtext {
+        font-family: "Mooli", sans-serif;
+        font-size: 14px;
+        color: var(--text-color, #ccc);
+        opacity: 0.8;
+        margin-top: 10px;
+        text-align: center;
+        max-width: 80%;
+      }
+      .audio-loading-toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--card-bg, rgba(255, 255, 255, 0.9));
+        color: var(--text-color, #333);
+        padding: 12px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-family: "Pixelify Sans", sans-serif;
+        font-size: 16px;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+      }
+      .audio-loading-toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .audio-mini-spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 107, 107, 0.3);
+        border-top-color: var(--primary-color, #ff6b6b);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
     </style>
   </head>
   <body>
+    <!-- YÜKLEME EKRANI -->
+    <div id="global-loader" class="global-loading-overlay">
+      <div class="loader-pixel-spinner"></div>
+      <div class="loader-text">Veriler İndiriliyor...</div>
+      <div class="loader-subtext">
+        Lütfen bekleyin, yüksek boyutlu resim ve müzikler cihazınıza yükleniyor.
+        İlk açılışta bu işlem biraz sürebilir.
+      </div>
+    </div>
+
+    <!-- MÜZİK YÜKLEME TOAST -->
+    <div id="audio-loader-toast" class="audio-loading-toast">
+      <div class="audio-mini-spinner"></div>
+      <span>Müzik İndiriliyor...</span>
+    </div>
+
     <!-- GLITCH OVARLAYS -->
     <!-- Tema kontrolü (Flash engelleme) -->
     <script>
@@ -4808,7 +4907,7 @@
             onerror="this.style.display = 'none'"
           />
           <div>
-            <div class="gnk-name">Kader Kaya 👋</div>
+            <div class="gnk-name">Kader👋</div>
             <span class="gnk-badge">🔐 Hocama Özel</span>
           </div>
         </div>
@@ -9907,6 +10006,37 @@
        * 11. BAŞLANGIÇ YÜKLEMESİ
        *************************************************************/
       window.addEventListener("DOMContentLoaded", () => {
+        // Global Yükleme Ekranını Kaldırma (Bütün kaynaklar yüklendiğinde)
+        window.addEventListener("load", () => {
+          const loader = document.getElementById("global-loader");
+          if (loader) {
+            loader.classList.add("hidden");
+            setTimeout(() => {
+              loader.style.display = "none";
+            }, 600);
+          }
+        });
+
+        // Müzik Yükleme Göstergesi (Event Listeners)
+        if (window.globalAudioPlayer) {
+          const audioToast = document.getElementById("audio-loader-toast");
+          window.globalAudioPlayer.addEventListener("waiting", () => {
+            if (audioToast) audioToast.classList.add("show");
+          });
+          window.globalAudioPlayer.addEventListener("playing", () => {
+            if (audioToast) audioToast.classList.remove("show");
+          });
+          window.globalAudioPlayer.addEventListener("canplay", () => {
+            if (audioToast) audioToast.classList.remove("show");
+          });
+          window.globalAudioPlayer.addEventListener("pause", () => {
+            if (audioToast) audioToast.classList.remove("show");
+          });
+          window.globalAudioPlayer.addEventListener("error", () => {
+            if (audioToast) audioToast.classList.remove("show");
+          });
+        }
+
         // Sayfa her yenilendiğinde en başa dön
         if ("scrollRestoration" in history)
           history.scrollRestoration = "manual";
@@ -10592,11 +10722,12 @@
       function yildizHTML(puan, renk) {
         let html = "";
         const altin = renk || "#e8c547";
+        const val = parseFloat(puan) || 0;
         for (let i = 1; i <= 5; i++) {
-          if (puan >= i) {
+          if (val >= i) {
             // Tam yıldız
             html += `<span style="color:${altin};">★</span>`;
-          } else if (puan >= i - 0.5) {
+          } else if (val >= i - 0.5) {
             // Yarım yıldız: sol yarı altın, sağ yarı gri — CSS clip-path ile
             html +=
               `<span style="position:relative;display:inline-block;letter-spacing:0;">` +
@@ -10670,7 +10801,8 @@
       function ortalamaGuncelle() {
         if (!aktifYorumlar.length) return;
         const ort =
-          aktifYorumlar.reduce((a, y) => a + y.puan, 0) / aktifYorumlar.length;
+          aktifYorumlar.reduce((a, y) => a + (parseFloat(y.puan) || 0), 0) /
+          aktifYorumlar.length;
         const ortEl = document.getElementById("yorum-ort-sayi");
         const yildizEl = document.getElementById("yorum-ort-yildizlar");
         const adetEl = document.getElementById("yorum-ort-adet");
@@ -10709,7 +10841,7 @@
 
       function yorumGonder() {
         const isim = document.getElementById("yorum-isim")?.value.trim();
-        const puan = parseInt(
+        const puan = parseFloat(
           document.getElementById("yorum-puan")?.value || "0",
         );
         const baslik = document.getElementById("yorum-baslik")?.value.trim();
