@@ -3,7 +3,7 @@
 > *"Sims kutusu" estetiğinde, Stardew Valley ruhlu, eğlenceli bir **interaktif kişisel tanıtım sitesi.***
 > Bir insanı sanki kutulu bir ürünmüş gibi tanıtan; özellikleri, uyarıları, kullanım kılavuzu, arkadaş/aile modülleri, gardırop, uyumluluk testi, başarımlar ve yorumlarla donatılmış tek sayfalık (single‑page) bir web uygulaması.
 
-Bu proje, **İnternet Programlama** dersi kapsamında geliştirilmiş kişisel bir "kendini tanıtma" web sitesidir. Kullanıcıyı (Kader / "keydır") kutulu bir elektronik ürün gibi sunan esprili bir konsept üzerine kuruludur: kişilik özellikleri "ürün özellikleri", anılar "koleksiyon", arkadaşlar/aile "destek modülleri", ilişki uyumu ise "uyumluluk testi" olarak sunulur.
+Bu proje, **İnternet Programlama** dersi kapsamında geliştirilmiş kişisel bir "kendini tanıtma" web sitesidir. Kullanıcıyı (Kader / "keydır") kutulu bir elektronik ürün gibi sunan esprili bir konsept üzerine kuruludur: kişilik özellikleri "ürün özellikleri", anılar "koleksiyon", arkadaşlar/aile "destek modülleri", ilişki uyumu ise "uyumluluk testi" olarak sunulur.Ayrıca canlı ortamda erişebilmelk için bu linke tıklayabilirsiniz: https://keydir-v1-internet.vercel.app/
 
 ---
 
@@ -154,4 +154,4 @@ Kendi kopyanızı çalıştırmak isterseniz:
 
 Bu proje bir **İnternet Programlama** ders ödevi/projesi olarak hazırlanmıştır ve kişisel içerik (fotoğraf, isim, anı vb.) barındırmaktadır. Kod yapısı eğitim/referans amaçlı incelenebilir; içerikteki kişisel görsel ve metinlerin izinsiz kopyalanması/yeniden yayınlanması uygun değildir.
 
-> *"Bu ürünün izinsiz kopyalanması yasaktır 😄"* — sayfanın kendi footer'ından.
+> *"Bu ürünün izinsiz kopyalanması yasaktır."*
