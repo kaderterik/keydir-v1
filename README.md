@@ -146,7 +146,6 @@ Kendi kopyanızı çalıştırmak isterseniz:
 
 - 🔗 GitHub: [github.com/kaderterik](https://github.com/kaderterik)
 - 💼 LinkedIn: [linkedin.com/in/kaderterik](https://www.linkedin.com/in/kaderterik)
-- 📸 Instagram: [@kadrtrkk](https://www.instagram.com/kadrtrkk/)
 
 ---
 
