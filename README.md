@@ -153,4 +153,3 @@ Kendi kopyanızı çalıştırmak isterseniz:
 
 Bu proje bir **İnternet Programlama** ders ödevi/projesi olarak hazırlanmıştır ve kişisel içerik (fotoğraf, isim, anı vb.) barındırmaktadır. Kod yapısı eğitim/referans amaçlı incelenebilir; içerikteki kişisel görsel ve metinlerin izinsiz kopyalanması/yeniden yayınlanması uygun değildir.
 
-> *"Bu ürünün izinsiz kopyalanması yasaktır."*
